@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import config from '../config';
 import './PokemonDetail.css';
 
 function PokemonDetail() {
@@ -15,7 +16,7 @@ function PokemonDetail() {
   const fetchPokemonDetail = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3001/api/pokemon/${name}`);
+      const response = await fetch(`${config.apiUrl}/api/pokemon/${name}`);
       if (!response.ok) {
         throw new Error('Pokemon not found');
       }

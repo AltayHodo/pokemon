@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import config from '../config';
 import './PokemonList.css';
 
 function PokemonList() {
@@ -17,7 +18,7 @@ function PokemonList() {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3001/api/pokemon?limit=${limit}&offset=${page * limit}`,
+        `${config.apiUrl}/api/pokemon?limit=${limit}&offset=${page * limit}`,
       );
       const data = await response.json();
       setPokemon(data.results);
