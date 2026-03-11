@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import config from '../config';
 import './PokemonList.css';
@@ -10,11 +10,7 @@ function PokemonList() {
   const [page, setPage] = useState(0);
   const limit = 20;
 
-  useEffect(() => {
-    fetchPokemon();
-  }, [page]);
-
-  const fetchPokemon = async () => {
+  const fetchPokemon = useCallback(async () => {
     setLoading(true);
     try {
       const response = await fetch(
@@ -29,7 +25,11 @@ function PokemonList() {
       );
       setLoading(false);
     }
-  };
+  }, [page]);
+
+  useEffect(() => {
+    fetchPokemon();
+  }, [fetchPokemon]);
 
   if (loading) {
     return (

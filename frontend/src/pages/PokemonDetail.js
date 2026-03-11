@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import config from '../config';
 import './PokemonDetail.css';
@@ -9,11 +9,7 @@ function PokemonDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchPokemonDetail();
-  }, [name]);
-
-  const fetchPokemonDetail = async () => {
+  const fetchPokemonDetail = useCallback(async () => {
     setLoading(true);
     try {
       const response = await fetch(`${config.apiUrl}/api/pokemon/${name}`);
@@ -27,7 +23,11 @@ function PokemonDetail() {
       setError(err.message);
       setLoading(false);
     }
-  };
+  }, [name]);
+
+  useEffect(() => {
+    fetchPokemonDetail();
+  }, [fetchPokemonDetail]);
 
   if (loading) {
     return (
